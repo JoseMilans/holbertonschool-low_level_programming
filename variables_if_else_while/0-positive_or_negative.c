@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
+#include <stdio.h>
 /**
  * main - assigns a random number to the variable n each time it is executed.
  *        The source code prints whether the number stored in the variable n is positive           or negative.
