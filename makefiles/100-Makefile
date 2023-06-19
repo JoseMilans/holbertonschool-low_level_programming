@@ -2,7 +2,6 @@ CC = gcc
 SRC = main.c school.c
 OBJ = $(SRC:.c=.o)
 NAME = school
-CFLAGS = -Wall -Werror -Wextra -pedantic
 
 .PHONY: all clean fclean oclean re
 
@@ -13,19 +12,17 @@ $(NAME): $(OBJ) m.h
 		echo "Missing header file: m.h"; \
 		exit 1; \
 	fi
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) -o $@ $^
 
 clean:
-	@$(RM) *~ $(NAME)
+	$(RM) $(NAME)
 
 oclean:
-	@$(RM) $(OBJ)
+	$(RM) $(OBJ)
 
 fclean: clean oclean
-	@$(RM) $(NAME)
 
 re: fclean all
 
 RM := rm -f
-RM += $(RM)
 
