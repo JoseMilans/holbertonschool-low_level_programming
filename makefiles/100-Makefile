@@ -1,5 +1,4 @@
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -pedantic
 
 SRC = main.c hello.c world.c
 OBJ = $(SRC:.c=.o)
@@ -8,13 +7,13 @@ NAME = school
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+	$(CC) $(filter-out $(MAKECMDGOALS), $(MAKEFLAGS)) -o $(NAME) $(OBJ)
 
 clean:
-	$(RM) *~ $(NAME)
+	@rm -f *~ $(NAME)
 
 oclean:
-	$(RM) $(OBJ)
+	@rm -f $(OBJ)
 
 fclean: clean oclean
 
@@ -23,8 +22,16 @@ re: fclean all
 .PHONY: all clean oclean fclean re
 
 check_flags:
-	@grep -w "CFLAGS" Makefile | grep -v "grep" | grep -q "$(CFLAGS)" && echo "1" || echo "0"
+	@echo "$(MAKECMDGOALS)" | grep -q "CFLAGS" && \
+	grep -w "CFLAGS" Makefile | grep -v "grep" | grep -q "\-Wall" && \
+	grep -w "CFLAGS" Makefile | grep -v "grep" | grep -q "\-Werror" && \
+	grep -w "CFLAGS" Makefile | grep -v "grep" | grep -q "\-Wextra" && \
+	grep -w "CFLAGS" Makefile | grep -v "grep" | grep -q "\-pedantic" && echo "1" || echo "0"
 
 check_duplicate_flags:
-	@grep -w "CFLAGS" Makefile | grep -v "grep" | grep -q "\-Wall" && grep -w "CFLAGS" Makefile | grep -v "grep" | grep -q "\-Werror" && grep -w "CFLAGS" Makefile | grep -v "grep" | grep -q "\-Wextra" && grep -w "CFLAGS" Makefile | grep -v "grep" | grep -q "\-pedantic" && echo "0" || echo "1"
+	@echo "$(MAKECMDGOALS)" | grep -q "CFLAGS" && \
+	grep -w "CFLAGS" Makefile | grep -v "grep" | grep "\-Wall" | grep -v "grep" -c && \
+	grep -w "CFLAGS" Makefile | grep -v "grep" | grep "\-Werror" | grep -v "grep" -c && \
+	grep -w "CFLAGS" Makefile | grep -v "grep" | grep "\-Wextra" | grep -v "grep" -c && \
+	grep -w "CFLAGS" Makefile | grep -v "grep" | grep "\-pedantic" | grep -v "grep" -c && echo "0" || echo "1"
 
