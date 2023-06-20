@@ -22,3 +22,9 @@ re: fclean all
 
 .PHONY: all clean oclean fclean re
 
+check_flags:
+	@grep -w "CFLAGS" Makefile | grep -v "grep" | grep -q " -Wall -Werror -Wextra -pedantic" && echo "1" || echo "0"
+
+check_duplicate_flags:
+	@grep -w "CFLAGS" Makefile | grep -v "grep" | grep -q "\-Wall.*-Werror.*-Wextra.*-pedantic.*-Wall" && echo "1" || echo "0"
+
