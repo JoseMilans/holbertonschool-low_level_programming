@@ -6,17 +6,18 @@
 void print_triangle(int size)
 {
 	int row = 0, col, spaces;
-	
-	if (size <= 0) 
+
+	if (size <= 0)
 	{
 		_putchar('\n');
 		return;
 	}
-	while (row < size) 
+	while (row < size)
 	{
 		spaces = size - row - 1;
 		col = 0;
-		while (col < size) {
+		while (col < size)
+		{
 			if (col < spaces)
 				_putchar(' ');
 			else
