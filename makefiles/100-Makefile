@@ -25,3 +25,7 @@ re: fclean all
 check_header:
 	@if [ ! -f m.h ]; then echo "Missing header file m.h"; fi
 
+.PHONY: check_sources
+check_sources:
+	@if [ $$(grep -c '^.*\.c:' Makefile) -gt 1 ]; then echo "Sources used more than once in Makefile"; fi
+
