@@ -5,14 +5,17 @@
  */
 void print_rev(char *s)
 {
-	int lenght = 0;
-
-	while (s[lenght] != '\0')
-		lenght++;
-	while (lenght >= 0)
+	int length = 0;
+	
+	while (s[length] != '\0')
 	{
-		_putchar(s[lenght]);
-		lenght--;
+		length++;
+	}
+	length--;
+	while (length >= 0)
+	{
+		_putchar(s[length]);
+		length--;
 	}
 	_putchar('\n');
 }
