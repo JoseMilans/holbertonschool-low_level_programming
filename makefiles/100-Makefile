@@ -11,10 +11,10 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
 
 clean:
-	/bin/rm -f *~ $(NAME)
+	$(RM) *~ $(NAME)
 
 oclean:
-	/bin/rm -f $(OBJ)
+	$(RM) $(OBJ)
 
 fclean: clean oclean
 
@@ -23,8 +23,8 @@ re: fclean all
 .PHONY: all clean oclean fclean re
 
 check_rm:
-	@echo "$(MAKECMDGOALS)" | grep -q "clean" && grep -w "clean" Makefile | grep -v "grep" | grep -q "/bin/rm" && echo "0" || echo "1"
+	@echo "$(MAKECMDGOALS)" | grep -q "clean" && grep -w "clean" Makefile | grep -v "grep" | grep -q "\$$(RM)" && echo "0" || echo "1"
 
 check_duplicate_rm:
-	@echo "$(MAKECMDGOALS)" | grep -q "clean" && grep -w "clean" Makefile | grep -v "grep" | grep "/bin/rm" | grep -v "grep" -c && echo "0" || echo "1"
+	@echo "$(MAKECMDGOALS)" | grep -q "clean" && grep -w "clean" Makefile | grep -v "grep" | grep "\$$(RM)" | grep -v "grep" -c && echo "0" || echo "1"
 
