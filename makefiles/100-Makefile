@@ -1,30 +1,24 @@
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -pedantic
+RM = rm -f
 
-SRC = main.c hello.c world.c
-OBJ = $(SRC:.c=.o)
 NAME = school
+SRC = main.c school.c
+OBJ = $(SRC:.c=.o)
 
-all: $(NAME)
-
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+all: $(OBJ)
+	$(CC) $(OBJ) $(CFLAGS) -o $(NAME)
 
 clean:
-	$(RM) *~ $(NAME)
+	$(RM) *~
+	$(RM) $(NAME)
 
 oclean:
 	$(RM) $(OBJ)
 
 fclean: clean oclean
 
-re: fclean all
+re: oclean all
 
 .PHONY: all clean oclean fclean re
-
-check_rm:
-	@echo "$(MAKECMDGOALS)" | grep -q "clean" && grep -w "clean" Makefile | grep -v "grep" | grep -q "$(RM)" && echo "0" || echo "1"
-
-check_duplicate_rm:
-	@echo "$(MAKECMDGOALS)" | grep -q "clean" && grep -w "clean" Makefile | grep -v "grep" | grep "$(RM)" | grep -v "grep" -c && echo "0" || echo "1"
 
