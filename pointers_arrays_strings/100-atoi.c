@@ -24,7 +24,15 @@ int _atoi(char *s)
 	{
 		if (result == INT_MIN / 10 && (s[i] - '0') == 8)
 		{
-			return (INT_MIN);
+			if (sign == -1)
+			{
+				return (INT_MIN);
+			}
+			else
+			{
+				result = INT_MIN;
+				break;
+			}
 		}
 		result = result * 10 + (s[i] - '0');
 		i++;
