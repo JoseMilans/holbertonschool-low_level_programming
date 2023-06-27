@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#define PASSWORD_LENGTH 15
 /**
  * main - Entry point
  *
@@ -8,15 +9,14 @@
  */
 int main(void)
 {
-	char password[7];
-	int i;
+	char password[PASSWORD_LENGTH + 1];
 
 	srand(time(0));
-	for (i = 0; i < 7; i++)
+	for (int i = 0; i < PASSWORD_LENGTH; i++)
 	{
 		password[i] = rand() % 94 + 33;
 	}
-	password[6] = '\0';
+	password[PASSWORD_LENGTH] = '\0';
 	printf("%s\n", password);
 	return (0);
 }
