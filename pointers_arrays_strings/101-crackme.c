@@ -1,28 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define PASSWORD_LENGTH 15
 /**
- * main - Generates a random valid password for the crackme program.
+ * main - Entry point
  *
- * Return: Always 0.
+ * Return: Always 0
  */
 int main(void)
 {
 	int i;
-	char password[PASSWORD_LENGTH + 1];
+	int sum;
+	char password[100];
 
-	srand(time(NULL));
-	for (i = 0; i < PASSWORD_LENGTH; i++)
+	srand(time(0));
+	sum = 2772;
+	i = 0;
+	while (sum > 126)
 	{
-		int randomValue;
-
-		do {
-			randomValue = rand() % 94 + 33;
-		} while (randomValue == 127);
-		password[i] = (char)randomValue;
+		password[i] = rand() % 94 + 33;
+		sum -= password[i];
+		i++;
 	}
-	password[PASSWORD_LENGTH] = '\0';
-	printf("%s\n", password);
+	password[i] = sum;
+	password[i + 1] = '\0';
+	printf("%s", password);
 	return (0);
 }
