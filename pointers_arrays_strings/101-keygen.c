@@ -19,7 +19,7 @@ int main(void)
 
 		do {
 			randomValue = rand() % 94 + 33;
-		} while (randomValue == 127 || randomValue == 128);
+		} while (randomValue == 127);
 		password[i] = (char)randomValue;
 	}
 	password[PASSWORD_LENGTH] = '\0';
