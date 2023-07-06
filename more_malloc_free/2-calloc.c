@@ -13,7 +13,7 @@ void *_calloc(unsigned int nmemb, unsigned int size)
 	void *ptr;
 	unsigned int i;
 	char *chPtr;
-    /* Check for zero values */
+    /* Check for 0 values */
 	if (nmemb == 0 || size == 0)
 		return (NULL);
     /* Allocate memory using malloc */
