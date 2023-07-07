@@ -27,23 +27,21 @@ char **strtow(char *str)
 	{
 		if (str[i] == ' ')
 			continue;
+		len = 0;
+		for (j = i; str[j] != ' ' && str[j] != '\0'; j++)
+			len++;
+		words[index] = malloc(sizeof(char) * (len + 1));
+		if (words[index] == NULL)
 		{
-			len = 0;
-			for (j = i; str[j] != ' ' && str[j] != '\0'; j++)
-				len++;
-			words[index] = malloc(sizeof(char) * (len + 1));
-			if (words[index] == NULL)
-			{
-				for (j = 0; j < index; j++)
-					free(words[j]);
-				free(words);
-				return (NULL);
-			}
-			for (j = 0; j < len; j++, i++)
-				words[index][j] = str[i];
-			words[index][j] = '\0';
-			index++;
+			for (j = 0; j < index; j++)
+				free(words[j]);
+			free(words);
+			return (NULL);
 		}
+		for (j = 0; j < len; j++, i++)
+			words[index][j] = str[i];
+		words[index][j] = '\0';
+		index++;
 	}
 	words[index] = NULL;
 	return (words);
