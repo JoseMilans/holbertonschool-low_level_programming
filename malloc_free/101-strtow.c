@@ -53,6 +53,7 @@ char **strtow(char *str)
 				words[k][j] = str[i++];
 			words[k][j] = '\0';
 			k++;
+			i--;
 		}
 	}
 	words[k] = NULL;
