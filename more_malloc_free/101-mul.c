@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 /**
  * multiply - Multiplies two positive numbers
  * @num1: The first number
@@ -14,19 +15,15 @@ char *multiply(char *num1, char *num2)
 
 	if (*num1 == '0' || *num2 == '0')
 	{
-		char *result = malloc(2);
+		result = malloc(sizeof(char) * 2);
 		if (result == NULL)
 			return (NULL);
 		result[0] = '0';
 		result[1] = '\0';
 		return (result);
 	}
-	len1 = 0;
-	while (num1[len1] != '\0')
-		len1++;
-	len2 = 0;
-	while (num2[len2] != '\0')
-		len2++;
+	len1 = strlen(num1);
+	len2 = strlen(num2);
 	lenRes = len1 + len2;
 	result = malloc(sizeof(char) * (lenRes + 1));
 	if (result == NULL)
@@ -48,11 +45,17 @@ char *multiply(char *num1, char *num2)
 	}
 	if (result[0] == '0')
 	{
-		for (i = 0; i < lenRes; i++)
-			result[i] = result[i + 1];
-		lenRes--;
+		char *newResult = malloc(sizeof(char) * (lenRes));
+
+		if (newResult == NULL)
+		{
+			free(result);
+			return (result);
+		}
+		strcpy(newResult, result + 1);
+		free(result);
+		return (newResult);
 	}
-	free(result);
 	return (result);
 }
 /**
@@ -94,6 +97,11 @@ int main(int argc, char **argv)
 		return (1);
 	}
 	result = multiply(num1, num2);
+	if (result == NULL)
+	{
+		printf("Error\n");
+		return (1);
+	}
 	printf("%s\n", result);
 	free(result);
 	return (0);
