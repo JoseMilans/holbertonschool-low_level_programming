@@ -46,7 +46,7 @@ char *multiply(char *num1, char *num2)
 	}
 	if (result[0] == '0')
 	{
-		newResult = malloc(sizeof(char) * lenRes);
+		newResult = malloc(sizeof(char) * (lenRes + 1));
 		if (newResult == NULL)
 		{
 			free(result);
@@ -54,7 +54,7 @@ char *multiply(char *num1, char *num2)
 		}
 		strcpy(newResult, result + 1);
 		free(result);
-		return newResult;
+		return (newResult);
 	}
 	return (result);
 }
