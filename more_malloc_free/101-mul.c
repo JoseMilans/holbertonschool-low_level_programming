@@ -45,7 +45,7 @@ char *multiply(char *num1, char *num2)
 	}
 	if (result[0] == '0')
 	{
-		char *newResult = malloc(sizeof(char) * (lenRes));
+		char *newResult = malloc(sizeof(char) * lenRes);
 
 		if (newResult == NULL)
 		{
