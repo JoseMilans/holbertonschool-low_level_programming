@@ -99,7 +99,7 @@ int main(int argc, char **argv)
 	result = multiply(num1, num2);
 	if (result == NULL)
 	{
-		printf("Error\n");
+		printf("Error: Memory allocation failed\n");
 		return (1);
 	}
 	printf("%s\n", result);
