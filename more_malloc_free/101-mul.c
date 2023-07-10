@@ -14,7 +14,7 @@ char *multiply(char *num1, char *num2)
 
 	if (*num1 == '0' || *num2 == '0')
 	{
-		result = malloc(sizeof(char) * 2);
+		char *result = malloc(2);
 		if (result == NULL)
 			return (NULL);
 		result[0] = '0';
