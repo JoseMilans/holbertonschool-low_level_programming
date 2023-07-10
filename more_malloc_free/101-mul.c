@@ -11,7 +11,7 @@
 char *multiply(char *num1, char *num2)
 {
 	int len1, len2, lenRes, i, j, prod, carry;
-	char *result; *newResult;
+	char *result, *newResult;
 
 	if (*num1 == '0' || *num2 == '0')
 	{
@@ -54,8 +54,9 @@ char *multiply(char *num1, char *num2)
 		}
 		strcpy(newResult, result + 1);
 		free(result);
+		return newResult;
 	}
-	return (newResult);
+	return (result);
 }
 /**
  * isPositiveNumber - Checks if a string represents a positive number
