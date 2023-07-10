@@ -52,6 +52,7 @@ char *multiply(char *num1, char *num2)
 			result[i] = result[i + 1];
 		lenRes--;
 	}
+	free(result);
 	return (result);
 }
 /**
