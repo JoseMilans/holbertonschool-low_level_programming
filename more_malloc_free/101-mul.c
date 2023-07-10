@@ -11,7 +11,7 @@
 char *multiply(char *num1, char *num2)
 {
 	int len1, len2, lenRes, i, j, prod, carry;
-	char *result, *newResult;
+	char *result, *newResult = NULL;
 
 	if (*num1 == '0' || *num2 == '0')
 	{
