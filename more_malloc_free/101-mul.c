@@ -1,72 +1,102 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
+#include <string.h>
 
 /**
- * error_exit - Prints "Error" and exits the program with a status of 98.
+ * error_and_exit - print error message and exit
  */
-void error_exit()
+void error_and_exit(void)
 {
     printf("Error\n");
     exit(98);
 }
 
 /**
- * mul - Multiplies two numbers passed as strings.
- * @num1: The first number.
- * @num2: The second number.
+ * is_num - check if a string is a number
+ * @num: string to check
+ * Return: 1 if string is a number, 0 otherwise
  */
-void mul(char *num1, char *num2)
+int is_num(char *num)
 {
-    int i, j, len1 = strlen(num1), len2 = strlen(num2);
-    int *buf = calloc(len1 + len2 + 1, sizeof(int));
+    int i;
 
-    if (!buf)
-        error_exit();
-
-    for (i = len1 - 1; i >= 0; i--)
+    for (i = 0; num[i]; i++)
     {
-        if (!isdigit(num1[i]))
-            error_exit();
-        for (j = len2 - 1; j >= 0; j--)
-        {
-            if (!isdigit(num2[j]))
-                error_exit();
-            buf[i + j + 1] += (num1[i] - '0') * (num2[j] - '0');
-        }
+        if (!isdigit(num[i]))
+            return (0);
     }
 
-    for (i = len1 + len2 - 1; i > 0; i--)
-    {
-        buf[i - 1] += buf[i] / 10;
-        buf[i] %= 10;
-    }
-
-    i = 0;
-    while (buf[i] == 0 && i < len1 + len2 - 1)
-        i++;
-
-    while (i < len1 + len2)
-        putchar(buf[i++] + '0');
-    putchar('\n');
-
-    free(buf);
+    return (1);
 }
 
 /**
- * main - Entry point.
- * @argc: The number of command line arguments.
- * @argv: The command line arguments.
- *
- * Return: 0 on success, 98 on error.
+ * multiply - multiply two numbers
+ * @num1: first number
+ * @num2: second number
+ * Return: result of multiplication as a string
  */
-int main(int argc, char **argv)
+char *multiply(char *num1, char *num2)
 {
-    if (argc != 3)
-        error_exit();
+    int len1 = strlen(num1), len2 = strlen(num2);
+    int *res = malloc((len1 + len2) * sizeof(int));
+    char *res_str = malloc((len1 + len2 + 1) * sizeof(char));
+    int i, j;
 
-    mul(argv[1], argv[2]);
+    if (!res || !res_str)
+        error_and_exit();
+
+    for (i = 0; i < len1 + len2; i++)
+        res[i] = 0;
+
+    for (i = len1 - 1; i >= 0; i--)
+    {
+        for (j = len2 - 1; j >= 0; j--)
+        {
+            res[i + j + 1] += (num1[i] - '0') * (num2[j] - '0');
+            res[i + j] += res[i + j + 1] / 10;
+            res[i + j + 1] %= 10;
+        }
+    }
+
+    for (i = 0; i < len1 + len2; i++)
+        res_str[i] = '0' + res[i];
+
+    res_str[i] = '\0';
+
+    if (res_str[0] == '0')
+        memmove(res_str, res_str + 1, strlen(res_str));
+
+    free(res);
+    return (res_str);
+}
+
+/**
+ * main - multiply two numbers
+ * @argc: argument count
+ * @argv: argument vector
+ * Return: 0 if successful, 98 otherwise
+ */
+int main(int argc, char *argv[])
+{
+    char *result;
+
+    if (argc != 3)
+    {
+        error_and_exit();
+    }
+
+    if (!is_num(argv[1]) || !is_num(argv[2]))
+    {
+        error_and_exit();
+    }
+
+    result = multiply(argv[1], argv[2]);
+
+    printf("%s\n", result);
+
+    free(result);
+
     return (0);
 }
 
