@@ -7,7 +7,7 @@
  */
 void error(void)
 {
-    printf("Error\n");
+    fprintf(stderr, "Error\n");
     exit(98);
 }
 
@@ -29,41 +29,39 @@ int _isdigit(int c)
  */
 char *mul(char *num1, char *num2)
 {
-    int i, j;
+    int i, j, mul, sum;
     int len1 = strlen(num1), len2 = strlen(num2);
     int len = len1 + len2;
     char *res = calloc(len + 1, sizeof(char));
 
     if (!res)
-        return (NULL);
+        error();
 
     for (i = len1 - 1; i >= 0; i--)
     {
         if (!_isdigit(num1[i]))
-            return (NULL);
+            error();
 
         for (j = len2 - 1; j >= 0; j--)
         {
             if (!_isdigit(num2[j]))
-                return (NULL);
+                error();
 
-            res[i + j + 1] += (num1[i] - '0') * (num2[j] - '0');
-            res[i + j] += res[i + j + 1] / 10;
-            res[i + j + 1] %= 10;
+            mul = (num1[i] - '0') * (num2[j] - '0');
+            sum = res[i + j + 1] + mul;
+
+            res[i + j + 1] = sum % 10;
+            res[i + j] += sum / 10;
         }
     }
 
     for (i = 0; i < len; i++)
         res[i] += '0';
 
-    for (i = 0; res[i]; i++)
-    {
-        if (res[i] != '0')
-        {
-            memmove(res, &res[i], len - i + 1);
-            break;
-        }
-    }
+    /* remove leading zeros */
+    while (*res && *res == '0') 
+        memmove(res, res + 1, len--);
+
     return (res);
 }
 
@@ -81,8 +79,6 @@ int main(int argc, char **argv)
         error();
 
     res = mul(argv[1], argv[2]);
-    if (!res)
-        error();
     printf("%s\n", *res ? res : "0");
     free(res);
 
