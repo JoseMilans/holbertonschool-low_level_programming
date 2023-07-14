@@ -44,7 +44,7 @@ void mul(char *num1, char *num2)
     }
 
     i = 0;
-    while (!buf[i] && i < len1 + len2)
+    while (buf[i] == 0 && i < len1 + len2 - 1)
         i++;
 
     while (i < len1 + len2)
