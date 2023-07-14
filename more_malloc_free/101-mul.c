@@ -1,101 +1,90 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
 
 /**
- * error_and_exit - print error message and exit
+ * error - prints an error message and exits.
  */
-void error_and_exit(void)
+void error(void)
 {
     printf("Error\n");
     exit(98);
 }
 
 /**
- * is_num - check if a string is a number
- * @num: string to check
- * Return: 1 if string is a number, 0 otherwise
+ * _isdigit - check if a character is a digit.
+ * @c: character to check.
+ * Return: 1 if c is a digit, 0 otherwise.
  */
-int is_num(char *num)
+int _isdigit(int c)
 {
-    int i;
-
-    for (i = 0; num[i]; i++)
-    {
-        if (!isdigit(num[i]))
-            return (0);
-    }
-
-    return (1);
+    return (c >= '0' && c <= '9');
 }
 
 /**
- * multiply - multiply two numbers
- * @num1: first number
- * @num2: second number
- * Return: result of multiplication as a string
+ * mul - multiplies two large numbers.
+ * @num1: first number.
+ * @num2: second number.
+ * Return: result of multiplication.
  */
-char *multiply(char *num1, char *num2)
+char *mul(char *num1, char *num2)
 {
-    int len1 = strlen(num1), len2 = strlen(num2);
-    int *res = malloc((len1 + len2) * sizeof(int));
-    char *res_str = malloc((len1 + len2 + 1) * sizeof(char));
     int i, j;
+    int len1 = strlen(num1), len2 = strlen(num2);
+    int len = len1 + len2;
+    char *res = calloc(len + 1, sizeof(char));
 
-    if (!res || !res_str)
-        error_and_exit();
-
-    for (i = 0; i < len1 + len2; i++)
-        res[i] = 0;
+    if (!res)
+        return (NULL);
 
     for (i = len1 - 1; i >= 0; i--)
     {
+        if (!_isdigit(num1[i]))
+            return (NULL);
+
         for (j = len2 - 1; j >= 0; j--)
         {
+            if (!_isdigit(num2[j]))
+                return (NULL);
+
             res[i + j + 1] += (num1[i] - '0') * (num2[j] - '0');
             res[i + j] += res[i + j + 1] / 10;
             res[i + j + 1] %= 10;
         }
     }
 
-    for (i = 0; i < len1 + len2; i++)
-        res_str[i] = '0' + res[i];
+    for (i = 0; i < len; i++)
+        res[i] += '0';
 
-    res_str[i] = '\0';
-
-    if (res_str[0] == '0')
-        memmove(res_str, res_str + 1, strlen(res_str));
-
-    free(res);
-    return (res_str);
+    for (i = 0; res[i]; i++)
+    {
+        if (res[i] != '0')
+        {
+            memmove(res, &res[i], len - i + 1);
+            break;
+        }
+    }
+    return (res);
 }
 
 /**
- * main - multiply two numbers
- * @argc: argument count
- * @argv: argument vector
- * Return: 0 if successful, 98 otherwise
+ * main - Entry point.
+ * @argc: arguments count.
+ * @argv: arguments vector.
+ * Return: 0 in success, 1 in error.
  */
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
-    char *result;
+    char *res;
 
     if (argc != 3)
-    {
-        error_and_exit();
-    }
+        error();
 
-    if (!is_num(argv[1]) || !is_num(argv[2]))
-    {
-        error_and_exit();
-    }
-
-    result = multiply(argv[1], argv[2]);
-
-    printf("%s\n", result);
-
-    free(result);
+    res = mul(argv[1], argv[2]);
+    if (!res)
+        error();
+    printf("%s\n", *res ? res : "0");
+    free(res);
 
     return (0);
 }
