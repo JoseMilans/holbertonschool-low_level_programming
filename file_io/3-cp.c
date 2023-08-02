@@ -64,9 +64,11 @@ int main(int argc, char *argv[])
 	exit(98);
 	fd_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, file_perm);
 	if (fd_to == -1)
+	{
 		close(fd_from);
 		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
 	exit(99);
+	}
 	copy_content(fd_from, fd_to);
 	close_files(fd_from, fd_to);
 	return (0);
