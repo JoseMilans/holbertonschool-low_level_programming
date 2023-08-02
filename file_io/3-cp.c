@@ -34,14 +34,14 @@ void copy_content(int fd_from, int fd_to, char *file_from, char *file_to)
 		write_status = write(fd_to, buffer, bytes_read);
 		if (write_status != bytes_read)
 		{
-			dprintf(STDERR_FILENO, "Error: Can't write to %d\n", file_to);
+			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to);
 			close_files(fd_from, fd_to);
 			exit(99);
 		}
 	}
 	if (bytes_read == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %d\n", file_from);
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
 		close_files(fd_from, fd_to);
 		exit(98);
 	}
