@@ -21,26 +21,24 @@ void close_files(int fd_from, int fd_to)
 void copy_content(int fd_from, int fd_to)
 {
 	char buffer[BUF_SIZE];
-	ssize_t bytes_read, bytes_written;
+	ssize_t bytes_read, write_status;
 
 	while ((bytes_read = read(fd_from, buffer, BUF_SIZE)) > 0)
 	{
-		bytes_written = write(fd_to, buffer, bytes_read);
-		if (bytes_written != bytes_read)
-			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", fd_to);
+		write_status = write(fd_to, buffer, bytes_read);
+		if (write_status != bytes_read)
+			dprintf(STDERR_FILENO, "Error: Can't write to %d\n", fd_to);
 		exit(99);
 	}
 	if (bytes_read == -1)
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", fd_from);
+		dprintf(STDERR_FILENO, "Error: Can't read from file %d\n", fd_from);
 	exit(98);
 }
 /**
  * check_args - checks if the correct number of arguments is passed
  * @argc: number of arguments
- * @file_from: name of the source file
- * @file_to: name of the destination file
  */
-void check_args(int argc, char *file_from, char *file_to)
+void check_args(int argc)
 {
 	if (argc != 3)
 	{
@@ -59,7 +57,7 @@ int main(int argc, char *argv[])
 	int fd_from, fd_to;
 	mode_t file_perm = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
 
-	check_args(argc, argv[1], argv[2]);
+	check_args(argc);
 	fd_from = open(argv[1], O_RDONLY);
 	if (fd_from == -1)
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
